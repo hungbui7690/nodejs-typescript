@@ -9,7 +9,14 @@ const app = express()
 app.use(express.json())
 
 app.get('/', (req: Request, res: Response) => {
-  return res.send('Hello World')
+  return res.json({
+    success: true,
+    name: 'John Doe',
+  })
+})
+
+app.get('/example', (req: Request, res: Response) => {
+  return res.redirect('http://example.com')
 })
 
 app.post('/api/data', (req: Request, res: Response) => {
