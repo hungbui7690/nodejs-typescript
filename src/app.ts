@@ -1,10 +1,17 @@
 /*
-  - npm install typescript -D
-  - npx tsc --init : create tsconfig.json
-  - npm i ts-node-dev --save-dev : similar to nodemon
-  - package.json: 
-    + "dev": "ts-node-dev --respawn --transpile-only src/app.ts" > docs 
+  - npm install express
+  - npm i @types/node
+  - npm install --save @types/express
 
 */
 
-console.log('Hello World')
+import express from 'express'
+
+const app = express()
+
+// curl http://localhost:3000/
+app.get('/', (req, res) => {
+  return res.send('Hello World')
+})
+
+app.listen(3000, () => console.log(`Server is listening on port 3000...`))
