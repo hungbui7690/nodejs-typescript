@@ -8,25 +8,19 @@ const app = express()
 
 app.use(express.json())
 
-app.get('/', (req: Request, res: Response) => {
-  return res.json({
-    success: true,
-    name: 'John Doe',
+app
+  .route('/')
+  .get((req: Request, res: Response) => {
+    return res.send('You make a GET request')
   })
-})
-
-app.get('/example', (req: Request, res: Response) => {
-  return res.redirect('http://example.com')
-})
-
-app.post('/api/data', (req: Request, res: Response) => {
-  console.log(req.body)
-
-  return res.sendStatus(200)
-})
-
-app.all('/api/all', (req: Request, res: Response) => {
-  return res.status(200).send('All')
-})
+  .post((req: Request, res: Response) => {
+    return res.send('You make a Post request')
+  })
+  .put((req: Request, res: Response) => {
+    return res.send('You make a PUT request')
+  })
+  .all((req: Request, res: Response) => {
+    return res.send('You make an X request')
+  })
 
 app.listen(3000, () => console.log(`Server is listening on port 3000...`))
