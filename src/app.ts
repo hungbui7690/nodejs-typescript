@@ -2,19 +2,21 @@
 
 */
 
-import express, { Request, Response } from 'express'
-
+import express, { Request, Response, NextFunction } from 'express'
 const app = express()
-
 app.use(express.json())
 
-app.get('/books/:bookID', (req, res) => {
-  console.log(req.params.bookID)
-  res.json(req.params)
-})
+// (1)
+const handleGetBookOne = (req: Request, res: Response, next: NextFunction) => {
+  console.log('First Middleware')
+  next() // (***) must have
+}
+const handleGetBookTwo = (req: Request, res: Response, next: NextFunction) => {
+  console.log('Second Middleware')
+  res.send(req.params)
+}
 
-app.get('/books/:bookID/:authorID', (req, res) => {
-  res.json(req.params)
-})
+// (2)
+app.get('/books/:bookID', [handleGetBookOne, handleGetBookTwo])
 
 app.listen(3000, () => console.log(`Server is listening on port 3000...`))
