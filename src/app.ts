@@ -14,22 +14,14 @@ const handleGetBookOne = (req: Request, res: Response, next: NextFunction) => {
 const handleGetBookTwo = (req: Request, res: Response, next: NextFunction) => {
   // @ts-ignore
   console.log(req.name)
-  res.send(req.params)
+  next()
 }
 
-app.get('/books/:bookID', [handleGetBookOne, handleGetBookTwo])
+// (***) global middleware
+app.use(handleGetBookOne, handleGetBookTwo)
 
-// (***) we can also write like this > but it looks like a mess
-app.get(
-  '/books/:bookID/:authorID',
-  (req: Request, res: Response, next: NextFunction) => {
-    console.log('First Middleware')
-    next()
-  },
-  (req: Request, res: Response, next: NextFunction) => {
-    console.log('Second Middleware')
-    res.send(req.params)
-  }
-)
+app.get('/books/:bookID', (req: Request, res: Response) => {
+  res.send('Hello There')
+})
 
 app.listen(3000, () => console.log(`Server is listening on port 3000...`))
