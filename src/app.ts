@@ -1,23 +1,19 @@
 /*
-  Folder Structure:
-  + Method 1:
-    - Services/ : use to connect to database > Services will import models
-    > Services import Models > Controllers import Services > Routes import Controllers
-
-  + Method 2: this is the way NextJS use
-    - src/books: 
-      + books.controller.ts
-      + books.models.ts
-      + books.service.ts
-    - src/:
-      + app.ts
-      + routes.ts
+  Security
+  - helmet > check pictures to see the changes in headers
 */
 
 import express, { Request, Response, NextFunction } from 'express'
 import routes from './routes'
 
 const app = express()
+
+// (1)
+import helmet from 'helmet'
+
+// (2)
+app.use(helmet())
+
 app.use(express.json())
 
 const middleware =
