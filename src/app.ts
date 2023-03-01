@@ -15,24 +15,31 @@ const middleware =
 
 app.use(middleware({ name: 'John Doe' }))
 
-// (***) Generic Types > check pic > when we hover on Request type > it shows the types with parameters: <{params}, {res}, {req}...>
-// > with the below implementation, we can handle the user input > user still can put the other stuffs in req.body > but when we use here, it will return errors
-app.post(
-  '/books/:bookID',
-  (
-    req: Request<
-      { name: 'string'; authorId: 'string' }, // now we can access req.params.name / authorId
-      {},
-      { name: 'string' }, // we can access req.body.name
-      {}
-    >,
-    res: Response
-  ) => {
-    const { name } = req.body // we just can extract req.body.name here
-    // @ts-ignore
-    console.log(res.locals.name)
-    res.send('Hello There')
+app.post('/books/:bookID', (req: Request, res: Response) => {
+  // @ts-ignore
+  console.log(res.locals.name)
+  res.send('Hello There')
+})
+
+// (***) express can handle err for us
+app.get('/error', () => {
+  throw new Error('Boom!')
+})
+
+// (1) async error
+async function throwErr() {
+  throw new Error('Boom!')
+}
+
+// (2) express 4 > it will hang > we will have to use try/catch block
+// > express 5 will work without try/catch
+app.get('/async-err', async (req, res) => {
+  try {
+    await throwErr()
+    res.send('OK')
+  } catch (error) {
+    res.status(400).send('Something went wrong')
   }
-)
+})
 
 app.listen(3000, () => console.log(`Server is listening on port 3000...`))
