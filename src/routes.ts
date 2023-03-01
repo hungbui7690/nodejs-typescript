@@ -1,12 +1,8 @@
-import { Express, Request, Response, NextFunction } from 'express'
+import { Express } from 'express'
+import getBookHandler from '../controllers/books.controller'
 
-// (1)
 function routes(app: Express) {
-  app.get('/books/:bookID', (req: Request, res: Response) => {
-    // @ts-ignore
-    console.log(res.locals.name)
-    res.send('Hello There')
-  })
+  app.get('/books/:bookID', getBookHandler)
 }
 
 export default routes

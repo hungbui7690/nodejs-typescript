@@ -17,7 +17,6 @@ const middleware =
 
 app.use(middleware({ name: 'John Doe' }))
 
-// (2)
 routes(app)
 
 app.get('/error', () => {
